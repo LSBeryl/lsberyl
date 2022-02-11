@@ -87,24 +87,9 @@
                         pika.frame.x = (pika.frame.x + 1) % 4
                     }
                     pika.frame.y = key[arrow].sprite
-                    if(key[arrow].sprite == 1){
-                        pika.x -= pika.speed
-                        if(pika.x <= 0) pika.x = 0
-                    } else if(key[arrow].sprite == 2){
-                        pika.x += pika.speed
-                        if(pika.x + pika.width >= innerWidth) pika.x = innerWidth - pika.width
-                    }
-                    else if(key[arrow].sprite == 3){
-                        pika.y -= pika.speed
-                        if(pika.y <= 0) pika.y = 0
-                    }
-                    else if(key[arrow].sprite == 0){
-                        pika.y += pika.speed
-                        if(pika.y + pika.height >= innerHeight) pika.y = innerHeight - pika.height
-                    }
+                    pika.x += (key.ArrowRight.down - key.ArrowLeft.down) * 50 / pika.speed
+                    pika.y += (key.ArrowDown.down - key.ArrowUp.down) * 50 / pika.speed
                     pika.tag.style.transform = `translate(${pika.x}px, ${pika.y}px)`
-                    
-                    console.log(pika);
                 }
                 pika.tag.style.backgroundPosition = `calc(100% / 3 * ${pika.frame.x}) calc(100% / 3 * ${pika.frame.y})`
             }
