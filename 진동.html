@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        div.ball{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        #container > div{
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left:50%;
+            top:50%;
+            color:white;
+            text-align: center;
+        }
+
+        #container > div > button{
+            color:inherit;
+            min-width: 50px;
+            padding: 5px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div>
+            <button data-d="0.1">up</button>
+            <button data-d="-0.1">down</button>
+            <div id="current-speed"></div>
+        </div>
+    </div>
+    <script>
+        /*
+            이 숙제를 자신이 방금 만든 github 레포지토리에 올려보세요.
+            진동하는 효과 만들기
+
+            미리 정의돼있는 ways 배열을 반복하면서 공 객체를 생성해 balls에 추가한다. 
+            이 때 필요한 속성에는 공의 속도, 색상, 시작위치, 방향 등의 정보가 필요하다.
+
+            이렇게 만들어진 balls 배열을 반복하면서 공을 만들고 진동하는 듯한 효과를 연출한다.
+            시작 위치는 한가운데부터 시작할 수 있도록 하며 새로운 반복문을 적극 활용해보도록 한다.
+        */
+
+        const con = document.querySelector('#container');
+        const cur = document.querySelector('#current-speed');
+        const balls = [];
+        const ways = [
+            [1, 0], [0, 1], [-1, 0], [0, -1],
+            [1, -1], [1, 1], [-1, 1], [-1, -1]
+        ];
+
+        let speed = 5
+
+        const r = () => Math.floor(Math.random() * 256);
+
+        const createBall = () => {
+            for(let way of ways){
+                const div = document.createElement('div');
+                const ball = {
+                    div,
+                    color: `rgb(${r()}, ${r()}, ${r()})`,
+                    oX: way[0] * 100,
+                    oY: way[1] * 100,
+                    x: way[0] * 100,
+                    y: way[1] * 100
+                } // 객체 정보 추가
+                balls.push(ball)
+                div.style.backgroundColor = ball.color
+                div.classList.add('ball')
+                con.appendChild(div)
+                // div도 ball 객체에 속성으로 추가하기
+            }
+            render();
+        }
+
+        const render = () => {
+            // balls를 렌더링하는 함수
+            for(let ball of balls){
+                const {oX, oY, div} = ball
+                ball.x = oX + Math.random() * speed
+                ball.y = oY + Math.random() * speed
+                div.style.transform = `translate(calc(${ball.x}px - 50%), calc(${ball.y}px - 50%))`
+            }
+            requestAnimationFrame(render)
+        };
+
+        const speedUpdate = (d) => {
+            // speed 를 d 만큼 증가
+            speed += d
+            if(speed <= 0) speed = 0
+            cur.innerHTML = speed.toFixed(1);
+        };
+
+        createBall();
+        speedUpdate(0);
+
+        con.onclick = (e) => {
+            // 속도 조절
+            const d = e.target.dataset.d
+            if(d) speedUpdate(Number(d) * 10)
+        };
+    </script>
+</body>
+</html>
