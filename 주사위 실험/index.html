@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #container{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        #res{
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            flex-grow: 1;
+        }
+
+        #res > div{
+            box-sizing: border-box;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        #res > div::before{
+            content:attr(data-num);
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color:white;
+            font-size: 1.5vw;
+            bottom:0;
+            width: 100%;
+            height: 50px;
+            text-align: center;
+        }
+
+        #img-container{
+            display: flex;
+            justify-content: center;
+        }
+
+        button{
+            padding: 0;
+            font-size:50px;
+            background-color: transparent;
+            border:none;
+        }
+
+        #img-container > div{
+            width: 80px;
+            height: 80px;
+            background-image: url("img/dice.png");
+            background-repeat: no-repeat;
+            background-size: auto 308%;
+            background-position-y: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="control-container">
+            <button data-id="up">🔼</button>
+            <button data-id="down">🔽</button>
+        </div>
+        <div id="img-container"></div>
+        <div id="res"></div>
+    </div>
+    <script>
+
+        const imgContainer = document.querySelector('#img-container');
+        const controlContainer = document.querySelector('#control-container');
+        const res = document.querySelector('#res');
+        
+        const dices = [];
+
+        const graph = {
+            max:0,
+            bars:[]
+        };
+
+        const rand = () => Math.floor(Math.random() * 256)
+
+        const update = () => {
+            res.innerHTML = '';
+            graph.bars = {};
+            graph.max = 0;
+            for(let i = dices.length; i <= dices.length * 6; i++){
+                const div = document.createElement('div')
+                div.style.backgroundColor = `rgb(${rand()}, ${rand()}, ${rand()})`
+                div.dataset.num = i
+                graph.bars[i] = {
+                    div: div,
+                    num: 0
+                }
+                res.appendChild(graph.bars[i].div)
+            }
+        };
+
+        const addDice = () => {
+            const div = document.createElement('div');
+            const obj = {
+                div,
+                num: 0
+            };
+            
+            if(dices.length <= 9){
+                dices.push(obj)
+                imgContainer.appendChild(obj.div)
+                update();
+            }
+        };
+
+        const deleteDice = () => {
+            if(dices.length){
+                const dice = dices.splice(dices.length - 1, 1)[0]
+                dice.div.remove()
+                update()
+            }
+        };
+
+        const render = () => {
+            if(dices.length){
+                let total = 0;
+                dices.forEach(dice => dice.num = Math.floor(Math.random() * 6 + 1))
+                dices.sort((a, b) => a.num - b.num)
+                imgContainer.innerHTML = ''
+                for(let dice in dices){
+                    const diceObj = dices[dice]
+
+                    diceObj.div.style.backgroundPositionX = `calc(100% / 5 * (${diceObj.num} - 1))`
+                    imgContainer.appendChild(diceObj.div)
+                    
+                    total += diceObj.num
+                }
+                graph.bars[total].num++
+
+                if(graph.max <= graph.bars[total].num) graph.max = graph.bars[total].num
+
+                for(let bar in graph.bars){
+                    graph.bars[total].div.style.height = `calc((100% - 50px) * ${graph.bars[total].num} / ${graph.max})`
+                }
+            }
+            requestAnimationFrame(render);
+        };
+
+        controlContainer.onclick = e => {
+            const tar = e.target;
+            if(tar.nodeName == 'BUTTON'){
+                if(tar.dataset.id == 'up') addDice()
+                else if(tar.dataset.id == 'down') deleteDice()
+            }
+        };
+
+        render();
+    </script>
+</body>
+
+</html>
+
