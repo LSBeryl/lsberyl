@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            user-select: none;
+        }
+        body{
+            position:relative;
+            margin:0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #box{
+            background-color:red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        #menu{
+            position: absolute;
+            top:0;
+            left:0;
+        }
+
+        #menu > div{
+            background-color: black;
+            color:white;
+            margin: 10px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
+            height: 40px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <script src="./dist/index.js" defer></script>
+</head>
+<body>
+    <div id="menu">
+        <div style="display: flex;" class="wheel">60px/s</div>
+        <div class="mouse" data-num="2"></div>
+        <div class="ArrowLeft">왼쪽 방향키 눌림</div>
+        <div class="ArrowRight">오른쪽 방향키 눌림</div>
+        <div class="ArrowUp">위쪽 방향키 눌림</div>
+        <div class="ArrowDown">아래쪽 방향키 눌림</div>
+    </div>
+    <div id="box" style="width:100px; height:100px;"></div>
+</body>
+</html>
