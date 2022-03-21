@@ -20,11 +20,11 @@
         let x = 0;
 
         const func = () =>{
-            if(x >= (innerWidth / 1440 / 99) * (innerHeight / 21)){
+            if(x >= (innerWidth / (1440 / 99)) * (innerHeight / 21)){
                 div.innerHTML = ''
                 x = 0
             }
-            for(let i = 0; i < (innerWidth / 1440 / 99) * (innerHeight / 21); i++){
+            for(let i = 0; i < (innerWidth / (1440 / 99)) * (innerHeight / 21); i++){
                 const span = document.createElement('span')
                 span.innerHTML = `${Math.floor(Math.random() * 2 + 1) % 2} `
                 x++
