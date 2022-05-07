@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            overflow: hidden;
+            margin: 0;
+        }
+        #con{
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100vh;
+        }
+
+        main{
+            flex-grow: 1;
+        }
+
+        #con > .node{
+            left:50vw;
+            top:25px;
+            transform: translate(-50%, -50%);
+        }
+
+        .node{
+            background-color: black;
+            color:white;
+            border-radius: 50%;
+            width:50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top:var(--top);
+            transition: background 0.5s;
+        }
+
+        .node::before{
+            /* data-num의 속성을 before의 content값으로 사용 */
+            /* https://developer.mozilla.org/en-US/docs/Web/CSS/attr() */
+            content: attr(data-num);
+        }
+        
+        .node.sel{
+            background-color: blue;
+            transition: all 0s;
+        }
+
+        .node.error{
+            background-color: red;
+            transition: all 0s;
+        }
+    </style>
+    <script defer src="./dist/index.js"></script>
+</head>
+<body>
+    <div id="con">
+        <div class="node" data-num="0" style="--top:0;">
+            <div class="node">
+                <div class="node">
+                    <div class="node"></div>
+                    <div class="node"></div>
+                </div>
+                <div class="node">
+                    <div class="node"></div>
+                    <div class="node"></div>
+                </div>
+            </div>
+            <div class="node">
+                <div class="node">
+                    <div class="node"></div>
+                    <div class="node"></div>
+                </div>
+                <div class="node">
+                    <div class="node"></div>
+                    <div class="node"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

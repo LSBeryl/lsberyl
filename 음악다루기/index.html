@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .ready{
+            display: none;
+        }
+        #play::before{
+            content: "일시정지";
+        }
+        #play.pause::before{
+            content: "재생";
+        }
+        #stop::before{
+            content: "정지";
+        }
+        input[type="range"]{
+            width: 100%;
+        }
+    </style>
+    <script defer src="./dist/index.js"></script>
+</head>
+<body>
+    <input id="file" type="file">
+    <div id="but-con" class="ready">
+        <div>
+            <button id="play" class="pause"></button>
+        </div>
+        <select id="playback"></select>
+        <div>
+            <span id="total"></span>
+            /
+            <span id="time"></span>
+        </div>
+        <div>
+            <input id="inp" value="0" type="range" step="0.01">
+        </div>
+    </div>
+    <audio></audio>
+</body>
+</html>
